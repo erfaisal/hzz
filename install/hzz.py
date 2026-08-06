@@ -17,27 +17,33 @@ def get_site_packages():
     return site.getsitepackages()[0]
 
 def install(package_name):
-    print(f"Connecting to CupX repository ({REPO_URL})...")
-    site_packages = get_site_packages()
-    temp_dir = Path(os.getenv("TEMP")) / "hzz_temp"
+    # 1. Updated terminal message
+    print(f"Connecting to CupX system (on- hzz.cupx.in/pkg)...")
+    
+    site_packages = Path(get_site_packages())
+    
+    # 2. Check if already installed (looks for the .dist-info folder)
+    existing_install = list(site_packages.glob(f"{package_name}-*.dist-info"))
+    if existing_install:
+        print(f"Requirement already satisfied: {package_name}")
+        return
+
+    temp_dir = Path(os.getenv("TEMP")) / "hzz_downloads"
     temp_dir.mkdir(exist_ok=True)
+    wheel_path = None
     
     try:
-        # 1. Fetch package metadata JSON from server
         meta_url = f"{REPO_URL}/{package_name}/index.json"
-        req = urllib.request.Request(meta_url, headers={'User-Agent': 'hzz-cli'})
-        with urllib.request.urlopen(req) as response:
-            metadata = json.loads(response.read().decode('utf-8'))
+        with urllib.request.urlopen(meta_url) as response:
+            metadata = json.loads(response.read().decode())
         
         wheel_name = metadata["latest_wheel"]
         wheel_url = f"{REPO_URL}/{package_name}/{wheel_name}"
         wheel_path = temp_dir / wheel_name
         
-        # 2. Download .whl archive
         print(f"Downloading {wheel_name}...")
         urllib.request.urlretrieve(wheel_url, wheel_path)
         
-        # 3. Unzip wheel directly into site-packages
         print(f"Installing {package_name}...")
         with zipfile.ZipFile(wheel_path, 'r') as zip_ref:
             zip_ref.extractall(site_packages)
@@ -47,35 +53,50 @@ def install(package_name):
     except Exception as e:
         print(f"Error: Could not install '{package_name}'. Details: {e}")
     finally:
-        if temp_dir.exists():
-            shutil.rmtree(temp_dir, ignore_errors=True)
+        if wheel_path and wheel_path.exists():
+            try:
+                wheel_path.unlink()
+            except PermissionError:
+                pass
 
 def uninstall(package_name):
     site_packages = Path(get_site_packages())
-    print(f"Uninstalling '{package_name}'...")
     
-    # Locate package distribution info folder
-    dist_dirs = list(site_packages.glob(f"{package_name}-*.dist-info")) + \
-                list(site_packages.glob(f"{package_name.replace('-', '_')}-*.dist-info"))
-    
-    if not dist_dirs:
-        print(f"Package '{package_name}' is not installed.")
+    dist_info_dirs = list(site_packages.glob(f"{package_name}-*.dist-info"))
+    if not dist_info_dirs:
+        print(f"Package '{package_name}' not found.")
         return
         
-    dist_info = dist_dirs[0]
+    print(f"Uninstalling '{package_name}'...")
+    dist_info = dist_info_dirs[0]
     record_file = dist_info / "RECORD"
     
     if record_file.exists():
+        # 3. Read lines into memory FIRST, then close the file immediately
         with open(record_file, 'r', encoding='utf-8') as f:
-            for line in f:
-                rel_path = line.split(',')[0].strip()
-                full_path = site_packages / rel_path
-                if full_path.is_file():
-                    full_path.unlink(missing_ok=True)
-        shutil.rmtree(dist_info, ignore_errors=True)
-        print(f"Successfully uninstalled '{package_name}'.")
+            lines = f.readlines()
+        
+        # Now it is safe to loop through and delete because the file is closed
+        for line in lines:
+            file_path = line.split(',')[0]
+            full_path = site_packages / file_path
+            
+            # Delete files if they exist
+            if full_path.exists() and full_path.is_file():
+                try:
+                    full_path.unlink()
+                except PermissionError:
+                    # Skips any file that might be locked by another program
+                    pass 
+        
+        # Finally, delete the .dist-info folder itself
+        try:
+            shutil.rmtree(dist_info)
+            print(f"Successfully uninstalled '{package_name}'.")
+        except PermissionError:
+            print(f"Warning: Cleaned up files, but could not remove folder {dist_info.name}.")
     else:
-        print(f"Missing install manifest for '{package_name}'. Cannot clean automatically.")
+        print("RECORD file missing. Cannot safely uninstall.")
 
 def list_packages():
     site_packages = Path(get_site_packages())
