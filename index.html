@@ -3,13 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>hzz Package Manager | CupX Corporation</title>
-
   <link rel="icon" type="image/png" href="/favicon.png">
-
   <meta name="description" content="Download hzz, the official Windows package manager for the CupX ecosystem.">
-
   <style>
     body {
       margin: 0;
@@ -18,32 +14,110 @@
       color: #e5e7eb;
     }
 
+    /* 1.4x Scaled Header */
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 20px;
+      padding: 22px 28px; /* Scaled 1.4x */
       background-color: #020617;
     }
 
     header h1 {
       margin: 0;
-      font-size: 22px;
+      font-size: 31px; /* Scaled 1.4x from 22px */
       color: #38bdf8;
     }
 
     header a {
       color: #38bdf8;
       text-decoration: none;
-      font-size: 14px;
+      font-size: 20px; /* Scaled 1.4x from 14px */
     }
 
     main {
       max-width: 1000px;
       margin: auto;
-      padding: 60px 20px;
+      padding: 40px 20px;
     }
 
+    /* Search System Styles */
+    .search-section {
+      max-width: 600px;
+      margin: 0 auto 50px auto;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 16px 20px;
+      font-size: 16px;
+      background-color: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      color: #f8fafc;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #38bdf8;
+    }
+
+    .search-results {
+      position: absolute;
+      top: 60px;
+      left: 0;
+      right: 0;
+      background-color: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      max-height: 350px;
+      overflow-y: auto;
+      z-index: 50;
+      display: none;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    .search-item {
+      padding: 15px 20px;
+      border-bottom: 1px solid #1e293b;
+      cursor: pointer;
+      display: block;
+      text-decoration: none;
+      transition: background-color 0.2s;
+    }
+
+    .search-item:last-child {
+      border-bottom: none;
+    }
+
+    .search-item:hover {
+      background-color: #0f172a;
+    }
+
+    .search-item-title {
+      color: #38bdf8;
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 4px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .search-item-version {
+      color: #94a3b8;
+      font-size: 12px;
+    }
+
+    .search-item-desc {
+      color: #cbd5e1;
+      font-size: 13px;
+      margin: 0;
+    }
+
+    /* General Typography & Layout */
     h2 {
       text-align: center;
       font-size: 32px;
@@ -167,7 +241,6 @@
     }
   </style>
 </head>
-
 <body>
 
 <header>
@@ -177,11 +250,16 @@
 
 <main>
 
+  <!-- Search System -->
+  <div class="search-section">
+    <input type="text" id="searchInput" class="search-input" placeholder="Search CupX packages (e.g. fm, etc )..." autocomplete="off">
+    <div id="searchResults" class="search-results"></div>
+  </div>
+
   <h2>Install hzz</h2>
   <p class="subtitle">The official package manager for the CupX ecosystem.</p>
 
   <div class="cards">
-
     <!-- Card 1: Direct Download -->
     <div class="card">
       <h3>Manual Download</h3>
@@ -202,8 +280,8 @@
       
       <div class="code-container">
         <code id="installCommand">iwr -useb https://hzz.cupx.in/install/hzz-installer.exe -OutFile hzz-installer.exe; .\hzz-installer.exe</code>
-        <button class="copy-btn" onclick="copyCode()" title="Copy to clipboard">
-          <!-- Copy Icon SVG -->
+        <!-- Fixed Copy Button -->
+        <button class="copy-btn" onclick="copyCode('installCommand', this)" title="Copy to clipboard">
           <svg viewBox="0 0 24 24">
             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
@@ -211,7 +289,6 @@
         </button>
       </div>
     </div>
-
   </div>
 
 </main>
@@ -221,14 +298,88 @@
 </footer>
 
 <script>
-  function copyCode() {
-    const codeText = document.getElementById("installCommand").innerText;
+  // --- COPY BUTTON LOGIC ---
+  function copyCode(elementId, btnElement) {
+    const codeText = document.getElementById(elementId).innerText;
     navigator.clipboard.writeText(codeText).then(() => {
-      alert("Command copied to clipboard!");
+      const originalSVG = btnElement.innerHTML;
+      // Change icon to a green checkmark
+      btnElement.innerHTML = `<svg viewBox="0 0 24 24" style="stroke: #4ade80;"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+      
+      // Revert back after 2 seconds
+      setTimeout(() => {
+        btnElement.innerHTML = originalSVG;
+      }, 2000);
     }).catch(err => {
       console.error("Failed to copy text: ", err);
     });
   }
+
+  // --- SEARCH SYSTEM LOGIC ---
+  let packageData = [];
+
+  // 1. Fetch the data from search.json when the page loads
+  fetch('/search.json')
+    .then(response => response.json())
+    .then(data => {
+      packageData = data;
+    })
+    .catch(err => console.error("Could not load search data:", err));
+
+  const searchInput = document.getElementById('searchInput');
+  const searchResults = document.getElementById('searchResults');
+
+  // 2. Listen for typing in the search bar
+  searchInput.addEventListener('input', function() {
+    const query = this.value.toLowerCase().trim();
+    
+    // Hide results if input is empty
+    if (query.length === 0) {
+      searchResults.style.display = 'none';
+      return;
+    }
+
+    // 3. Filter packages based on query
+    const filtered = packageData.filter(pkg => {
+      return (pkg.name && pkg.name.toLowerCase().includes(query)) ||
+             (pkg.description && pkg.description.toLowerCase().includes(query)) ||
+             (pkg.author && pkg.author.toLowerCase().includes(query));
+    });
+
+    // 4. Render the results
+    renderResults(filtered);
+  });
+
+  function renderResults(results) {
+    searchResults.innerHTML = '';
+
+    if (results.length === 0) {
+      searchResults.innerHTML = '<div style="padding: 15px 20px; color: #94a3b8; font-size: 14px;">No packages found matching your search.</div>';
+    } else {
+      results.forEach(pkg => {
+        const a = document.createElement('a');
+        a.href = `/pkg/${pkg.name}/index.html`; // Directs user to the package page
+        a.className = 'search-item';
+        a.innerHTML = `
+          <div class="search-item-title">
+            <span>${pkg.name}</span>
+            <span class="search-item-version">v${pkg.version}</span>
+          </div>
+          <p class="search-item-desc">${pkg.description}</p>
+        `;
+        searchResults.appendChild(a);
+      });
+    }
+    
+    searchResults.style.display = 'block';
+  }
+
+  // Hide search results dropdown if user clicks anywhere else on the page
+  document.addEventListener('click', function(e) {
+    if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+      searchResults.style.display = 'none';
+    }
+  });
 </script>
 
 </body>
