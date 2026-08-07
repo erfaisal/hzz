@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>cupx · CupX Packages</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <meta name="description" content="Official CupX Corporation Python Library">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background-color: #0f172a; color: #e5e7eb; line-height: 1.6; }
+    header { display: flex; justify-content: space-between; padding: 16px 20px; background-color: #020617; border-bottom: 1px solid #1e293b; }
+    header h1 { margin: 0; font-size: 22px; color: #38bdf8; }
+    header a { color: #38bdf8; text-decoration: none; font-size: 14px; }
+    main { max-width: 1100px; margin: auto; padding: 40px 20px; }
+    .project-layout { display: flex; gap: 40px; flex-wrap: wrap; }
+    .readme-section { flex: 3; min-width: 300px; }
+    .meta-section { flex: 1; min-width: 280px; }
+    .project-header { margin-bottom: 30px; border-bottom: 1px solid #1e293b; padding-bottom: 20px; }
+    .project-title { font-size: 42px; margin: 0 0 10px 0; color: #f8fafc; }
+    .project-subtitle { font-size: 18px; color: #94a3b8; margin: 0; }
+    .sidebar-card { background-color: #020617; padding: 20px; border-radius: 8px; border: 1px solid #1e293b; margin-bottom: 25px; }
+    .sidebar-card h3 { margin-top: 0; color: #94a3b8; font-size: 14px; text-transform: uppercase; border-bottom: 1px solid #1e293b; padding-bottom: 10px; margin-bottom: 15px; }
+    .meta-item { margin-bottom: 15px; }
+    .meta-item strong { display: block; color: #f8fafc; font-size: 14px; }
+    .meta-item span { color: #94a3b8; font-size: 14px; }
+    .code-container { position: relative; background-color: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 12px; display: flex; align-items: center; margin-top: 5px; }
+    .code-container code { font-family: monospace; color: #4ade80; font-size: 14px; overflow-x: auto; white-space: nowrap; padding-right: 40px; }
+    footer { text-align: center; padding: 20px; font-size: 13px; background-color: #020617; color: #64748b; margin-top: 60px; border-top: 1px solid #1e293b; }
+    #readme-rendered h1, #readme-rendered h2 { color: #f8fafc; border-bottom: 1px solid #1e293b; padding-bottom: 10px; margin-top: 30px; }
+    #readme-rendered pre { background-color: #020617; border: 1px solid #1e293b; padding: 15px; border-radius: 6px; overflow-x: auto; }
+    #readme-rendered code { font-family: monospace; color: #38bdf8; }
+    #readme-rendered pre code { color: #e2e8f0; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>CupX hzz</h1>
+  <a href="https://hzz.cupx.in">← Back to Package Manager</a>
+</header>
+<main>
+  <div class="project-header">
+    <h1 class="project-title">cupx</h1>
+    <p class="project-subtitle">Official CupX Corporation Python Library</p>
+  </div>
+  <div class="project-layout">
+    <div class="readme-section">
+      <textarea id="markdown-source" style="display:none;"># cupx
+
+Official Python package for CupX Corporation.
+
+## Installation
+
+```bash
+pip install cupx
+```
+
+## Usage
+
+```python
+import cupx
+
+cupx.qzz()
+```
+
+Output
+
+```
+CupX Corporation
+```
+
+## License
+
+MIT</textarea>
+      <div id="readme-rendered"></div>
+    </div>
+    <div class="meta-section">
+      <div class="sidebar-card">
+        <h3>Install</h3>
+        <p style="font-size: 13px; color: #94a3b8; margin: 0 0 10px 0;">Run this in Windows Terminal:</p>
+        <div class="code-container">
+          <code>hzz install cupx</code>
+        </div>
+      </div>
+      <div class="sidebar-card">
+        <h3>Project Details</h3>
+        <div class="meta-item"><strong>Author</strong><span>Faisal Muzaffar</span></div>
+        <div class="meta-item"><strong>Version</strong><span>1.0.0</span></div>
+      </div>
+    </div>
+  </div>
+</main>
+<footer>© 2026 CupX Corporation · Built for the CupX Ecosystem</footer>
+<script>
+  document.getElementById('readme-rendered').innerHTML = marked.parse(document.getElementById('markdown-source').value);
+</script>
+</body>
+</html>

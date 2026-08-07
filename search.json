@@ -7,6 +7,13 @@
     "readme": "# amu\n\nAMU Python package.\n\n## Installation\n\n```bash\npip install amu\n```\n\n## Usage\n\n```python\nimport amu\n\namu.qzz()\n```"
   },
   {
+    "name": "cupx",
+    "version": "1.0.0",
+    "author": "Faisal Muzaffar",
+    "description": "Official CupX Corporation Python Library",
+    "readme": "# cupx\n\nOfficial Python package for CupX Corporation.\n\n## Installation\n\n```bash\npip install cupx\n```\n\n## Usage\n\n```python\nimport cupx\n\ncupx.qzz()\n```\n\nOutput\n\n```\nCupX Corporation\n```\n\n## License\n\nMIT"
+  },
+  {
     "name": "faisal",
     "version": "1.0.0",
     "author": "Faisal Muzaffar",
