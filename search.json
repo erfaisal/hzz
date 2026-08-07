@@ -1,0 +1,44 @@
+[
+  {
+    "name": "amu",
+    "version": "1.0.0",
+    "author": "Faisal Muzaffar",
+    "description": "AMU Python Library",
+    "readme": "# amu\n\nAMU Python package.\n\n## Installation\n\n```bash\npip install amu\n```\n\n## Usage\n\n```python\nimport amu\n\namu.qzz()\n```"
+  },
+  {
+    "name": "faisal",
+    "version": "1.0.0",
+    "author": "Faisal Muzaffar",
+    "description": "Official Faisal Python Library",
+    "readme": "# faisal\n\nOfficial Python package by Faisal Muzaffar.\n\n## Installation\n\n```bash\npip install faisal\n```\n\n## Usage\n\n```python\nimport faisal\n\nfaisal.qzz()\n```\n\nOutput\n\n```\nFaisal Muzaffar\n```\n\n## License\n\nMIT"
+  },
+  {
+    "name": "fm",
+    "version": "1.0.0",
+    "author": "Faisal Muzaffar",
+    "description": "A Faisal Python Library",
+    "readme": "# faisal\n\nA Python package by Faisal Muzaffar.\n\n## Installation\n\n```bash\npip install fm\n```\n\n## Usage\n\n```python\nimport fm\n\nfm.qzz()\n```\n\nOutput\n\n```\nFaisal Muzaffar\n```\n\n## License\n\nMIT"
+  },
+  {
+    "name": "hadhiya",
+    "version": "1.0.0",
+    "author": "Faisal Muzaffar",
+    "description": "A tiny Python package that spreads smiles and positivity.",
+    "readme": "# hadhiya\n\n[![PyPI](https://img.shields.io/pypi/v/hadhiya.svg)](https://pypi.org/project/hadhiya/)\n[![Python](https://img.shields.io/pypi/pyversions/hadhiya.svg)](https://pypi.org/project/hadhiya/)\n[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)\n\nA tiny Python package created to make someone smile.\n\nIt contains wholesome messages, motivation, cute terminal animations, random compliments, ASCII art, and lots of tiny surprises.\n\n---\n\n## Installation\n\n```bash\npip install hadhiya\n```\n\n---\n\n## Quick Start\n\n```python\nimport hadhiya as h\n\nh.good_morning()\nh.smile()\nh.compliment()\nh.motivate()\n```\n\n---\n\n## Examples\n\n```python\nimport hadhiya as h\n\nh.drink_water()\nh.take_break()\nh.study()\nh.random_fact()\nh.secret()\n```\n\n---\n\n## Features\n\n- \ud83c\udf38 Friendly messages\n- \u2600\ufe0f Morning greetings\n- \ud83c\udf19 Night wishes\n- \ud83d\udc99 Motivational quotes\n- \ud83c\udf3c ASCII flowers\n- \u2764\ufe0f ASCII hearts\n- \ud83c\udfb2 Random surprises\n- \ud83d\udcda Study reminders\n- \u2615 Tea reminders\n- \ud83c\udf1f Hidden easter eggs\n- \ud83d\ude0a Compliments\n- \ud83c\udf89 Fun terminal output\n\n---\n\n## Philosophy\n\nThis package exists for one purpose:\n\n> Make someone's day a little brighter.\n\n---\n\n## License\n\nMIT License"
+  },
+  {
+    "name": "hzz",
+    "version": "1.0.0",
+    "author": "",
+    "description": "",
+    "readme": ""
+  },
+  {
+    "name": "saad",
+    "version": "1.0.0",
+    "author": "Faisal Muzaffar",
+    "description": "Python Library for Saad",
+    "readme": "# saad\n\nPython package for Saad.\n\n## Installation\n\n```bash\npip install saad\n```\n\n## Usage\n\n```python\nimport saad\n\nsaad.qzz()\n```\n\nOutput\n\n```\nAhmad Saad Alig\n```\n\n## Developer\nFaisal Muzaffar\n\n## License\n\nMIT"
+  }
+]
